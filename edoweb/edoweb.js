@@ -19,23 +19,13 @@
 
 (function($) {
 
-  Drupal.behaviors.edoweb_field_autocomplete = {
+  Drupal.behaviors.edoweb = {
     attach: function (context, settings) {
-      window.location.hash = 'focus';
-      $('.edoweb_autocomplete_widget').each(function(index, element) {
-        var field_name = $(this).attr('class').split(/\s+/)[1];
-        var bundle_name = $(this).attr('class').split(/\s+/)[2];
-        $(this).autocomplete({
-          source: Drupal.settings.basePath + 'edoweb/autocomplete/' + bundle_name + '/' + field_name,
-          minLength: 2,
-          select: function(event, ui) {
-            var search_input = $('input[name="edoweb_autocomplete_widget[' + field_name + '][search]"]');
-            var search_button = $('input[name="edoweb_autocomplete_widget[' + field_name + '][submit]"]');
-            search_input.val(ui.item.label);
-            search_button.trigger('click');
-            return false;
-          }
-        });
+      window.onbeforeunload = function() {
+        return "Sie bearbeiten zur Zeit einen Eintrag.";
+      };
+      $('.form-submit').click(function(e) {
+        window.onbeforeunload = function(){};
       });
     }
   };
